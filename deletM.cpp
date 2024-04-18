@@ -19,7 +19,7 @@ void deleteNim (string targetNim){
             cout << "Nim " << targetNim << " telah dihapus" << endl;
             return;
         }
-    } cout << "Nim " << targetNim << " tidak ditemukan." << endl;
+    } cout << "Nim " << targetNim << " tidak ditemukan." << endl; //hapus
 }
 
 //
