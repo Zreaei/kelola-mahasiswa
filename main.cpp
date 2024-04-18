@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+void updateMahasiswa(){
+    
+}
+
 int main(){
     int pilihan;
     cout << "========================================" << endl;
