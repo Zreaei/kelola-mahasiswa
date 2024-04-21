@@ -2,14 +2,44 @@
 #include <stdlib.h>
 using namespace std;
 
-struct Mahasiswa {
+// Struct untuk mendefinisikan codingan
+struct mahasiswa 
+{
     string nama;
     int nim;
-    Mahasiswa* next;
+    mahasiswa *next;
+    mahasiswa *prev;
 };
 
-void cariDataMahasiswa(Mahasiswa* head, int targetNIM) {
-    Mahasiswa* current = head;
+// Variabel global awal linked list
+// mahasiswa *head = nullptr; 
+mahasiswa *head;
+mahasiswa *tail;
+mahasiswa *current = NULL;
+
+// Memeriksa Linked List
+bool isEmpty() { 
+    return head == nullptr;
+}
+
+// Memasukan data mahasiswa baru 
+void tambahDataMahasiswa(string nama, int nim) { 
+    mahasiswa* new_mahasiswa = new mahasiswa;
+    new_mahasiswa->nama = nama; // Mengatur nilai nama_mahasiswa
+    new_mahasiswa->nim = nim;   // Mengatur nilai nim_mahasiswa
+
+    // Node baru akan menjadi head
+    if (isEmpty()) { 
+        new_mahasiswa->next = nullptr;
+        head = new_mahasiswa;
+    } else {
+        new_mahasiswa->next = head;
+        head = new_mahasiswa;
+    }
+}
+
+void cariDataMahasiswa(mahasiswa* head, int targetNIM) {
+    mahasiswa* current = head;
     while (current != NULL) {
         if (current->nim == targetNIM) {
             cout << "Data Mahasiswa ditemukan!" << endl;
@@ -22,57 +52,58 @@ void cariDataMahasiswa(Mahasiswa* head, int targetNIM) {
     cout << "Data Mahasiswa tidak ditemukan." << endl;
 }
 
-#include <iostream>
-using namespace std;
+void ubahDataMahasiswa(int targetNIM){
 
-struct mahasiswa //struct untuk mendefinisikan codingan
-{
-    string nama_mahasiswa;
-    int nim_mahasiswa;
-    mahasiswa *next;
-};
-
-mahasiswa *head = nullptr; //variabel global awal linked list
-
-bool isEmpty() { //memeriksa linked list
-    return head == nullptr;
 }
 
-void insertfirst(string nama_mahasiswa, int nim_mahasiswa) { //memasukan data mahasiswa baru 
-    mahasiswa* new_mahasiswa = new mahasiswa;
-    new_mahasiswa->nama_mahasiswa = nama_mahasiswa; // Mengatur nilai nama_mahasiswa
-    new_mahasiswa->nim_mahasiswa = nim_mahasiswa;   // Mengatur nilai nim_mahasiswa
-
-    if (isEmpty()) { //node baru akan menjadi head
-        new_mahasiswa->next = nullptr;
-        head = new_mahasiswa;
-    }
-    else {
-        new_mahasiswa->next = head;
-        head = new_mahasiswa;
-    }
+void hapusDataMahasiswa (int targetNIM){
+    while (head != NULL) {
+        if (current->nim = targetNIM) {
+            if (current->prev != NULL)
+            {
+                current->prev->next = current->next;
+            }
+            if (current->next != NULL)
+            {
+                current->next->prev = current->prev;
+            } else {
+                tail = current->prev;
+            }
+            delete current;
+            cout << "Nim " << targetNIM << " telah dihapus" << endl;
+            return;
+        }
+    } cout << "Nim " << targetNIM << " tidak ditemukan." << endl;
 }
 
-void display() { //menampilkan data mahasiswa
+// int main(){
+//     cout << "Hapus Nim" << endl;
+//     string nimHapus;
+//     cout << "Masukkan nim yang ingin dihapus: ";
+//     cin >> nimHapus; 
+//     deleteDataMahasiswa(nimHapus);
+// }
+
+ // Menampilkan data mahasiswa
+void display() {
     mahasiswa* current = head;
     cout << "Daftar Mahasiswa:\n";
     while (current != nullptr) {
-        cout << "Nama: " << current->nama_mahasiswa << ", NIM: " << current->nim_mahasiswa << endl; 
+        cout << "Nama: " << current->nama << ", NIM: " << current->nim << endl; 
         current = current->next;
     } 
 }
 
-int main () { //memasukan data linked list 
-    insertfirst("Muhammad Rafi zamzami", 2301678);
-    insertfirst("Naila Melany", 2300512);
-    insertfirst("R. Arya Muharrom D.M", 2301720);
-    insertfirst("Risti Sabila", 2303903);
+// int main () { //memasukan data linked list 
+//     tambahDataMahasiswa("Muhammad Rafi zamzami", 2301678);
+//     tambahDataMahasiswa("Naila Melany", 2300512);
+//     tambahDataMahasiswa("R. Arya Muharrom D.M", 2301720);
+//     tambahDataMahasiswa("Risti Sabila", 2303903);
 
-    display(); //menampilkan data mahasiswa
+//     display(); //menampilkan data mahasiswa
 
-    return 0;
-}
-
+//     return 0;
+// }
 
 void tampilkanMenu() {
     system("cls");
@@ -90,16 +121,16 @@ void tampilkanMenu() {
 }
 
 int main() {
-    Mahasiswa* head = new Mahasiswa();
-    head->nim = 12345;
-    head->nama = "Raden";
+    // mahasiswa* head = new mahasiswa();
+    // head->nim = 12345;
+    // head->nama = "Raden";
     
-    Mahasiswa* node1 = new Mahasiswa();
-    node1->nim = 67890;
-    node1->nama = "Zem";
+    // mahasiswa* node1 = new mahasiswa();
+    // node1->nim = 67890;
+    // node1->nama = "Zem";
     
-    head->next = node1;
-    node1->next = NULL;
+    // head->next = node1;
+    // node1->next = NULL;
 
     int pilihan;
     tampilkanMenu();
@@ -112,13 +143,16 @@ int main() {
         cariDataMahasiswa(head, targetNIM);
     } else if (pilihan == 2){
         system("cls");
-        cout << "2 Done" << endl;
+        // tambahDataMahasiswa();
+        cout << "Done 2" << endl;
     } else if (pilihan == 3){
         system("cls");
-        cout << "3 Done" << endl;
+        // ubahDataMahasiswa();
+        cout << "Done 3" << endl;
     } else if (pilihan == 4){
         system("cls");
-        cout << "4 Done" << endl;
+        // hapusDataMahasiswa();
+        cout << "Done 4" << endl;
     } else {
         system("cls");
         cout << "Masukan pilihan sesuai dengan opsi!" << endl;
