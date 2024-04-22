@@ -61,6 +61,7 @@ void cariDataMahasiswa(int targetNIM){
 }
 
 void ubahDataMahasiswa(int targetNIM){
+    mahasiswa* current = head;
     while (current != NULL){
         if (current->nim == targetNIM){
             cout << "Masukkan Nama Baru: ";
@@ -124,6 +125,7 @@ void tampilkanMenu(){
     cout << "3. Cari Data Mahasiswa" << endl;
     cout << "4. Ubah Data Mahasiswa" << endl;
     cout << "5. Hapus Data Mahasiswa" << endl;
+    cout << "6. Keluar" << endl;
     cout << endl;
 }
 
@@ -199,10 +201,31 @@ int main(){
         }
     } else if (pilihan == 4){
         system("cls");
-        // ubahDataMahasiswa();
+        int targetNIM;
+        cout << "Masukkan NIM yang ingin dicari: ";
+        cin >> targetNIM;
+        ubahDataMahasiswa(targetNIM);
+        cout << endl;
+        cout << "1. Kembali" << endl;
+        cout << "2. Keluar" << endl;
+        cout << endl;
+        cout << "Masukan Menu : "; cin >> pilihan;
+        if (pilihan == 1){
+            system("cls");
+            main();
+        } else if (pilihan == 2) {
+            system("cls");
+            return 0;
+        } else {
+            system("cls");
+            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
+        }
     } else if (pilihan == 5){
         system("cls");
         // hapusDataMahasiswa();
+    } else if (pilihan == 6){
+        system("cls");
+        return 0;
     } else {
         system("cls");
         cout << "Masukan pilihan sesuai dengan opsi!" << endl;
