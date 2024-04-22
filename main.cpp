@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include <conio.h>
 using namespace std;
 
 // Struct untuk mendefinisikan codingan
@@ -43,13 +44,15 @@ void tambahDataMahasiswa(int nim, string nama, string kelas, string prodi){
     }
 }
 
-void cariDataMahasiswa(mahasiswa* head, int targetNIM){
+void cariDataMahasiswa(int targetNIM){
     mahasiswa* current = head;
     while (current != NULL){
         if (current->nim == targetNIM){
             cout << "Data Mahasiswa ditemukan!" << endl;
             cout << "NIM: " << current->nim << endl;
             cout << "Nama: " << current->nama << endl;
+            cout << "Kelas: " << current->kelas << endl;
+            cout << "Prodi: " << current->prodi << endl;
             return;
         }
         current = current->next;
@@ -62,6 +65,10 @@ void ubahDataMahasiswa(int targetNIM){
         if (current->nim == targetNIM){
             cout << "Masukkan Nama Baru: ";
             cin >> current->nama;
+            cout << "Masukkan Kelas Baru: ";
+            cin >> current->kelas;
+            cout << "Masukkan Prodi Baru: ";
+            cin >> current->prodi;
             cout << "Data Mahasiswa berhasil diubah!" << endl;
             return;
         }
@@ -127,6 +134,7 @@ int main(){
 
     if (pilihan == 1){
         system("cls");
+        int pilihan;
         int nim;
         string nama, kelas, prodi;
         cout << "Masukkan NIM: "; cin >> nim;
@@ -135,16 +143,60 @@ int main(){
         cout << "Masukkan Prodi: "; cin >> prodi;
         tambahDataMahasiswa(nim, nama, kelas, prodi);
         cout << "Data Mahasiswa berhasil ditambahkan!" << endl;
-        cout << "Tekan enter untuk kembali..." << endl;
+        cout << endl;
+        cout << "1. Kembali" << endl;
+        cout << "2. Keluar" << endl;
+        cout << endl;
+        cout << "Masukan Menu : "; cin >> pilihan;
+        if (pilihan == 1){
+            system("cls");
+            main();
+        } else if (pilihan == 2) {
+            system("cls");
+            return 0;
+        } else {
+            system("cls");
+            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
+        }
+
     } else if (pilihan == 2){
         system("cls");
         lihatDataMahasiswa();
+        cout << "1. Kembali" << endl;
+        cout << "2. Keluar" << endl;
+        cout << endl;
+        cout << "Masukan Menu : "; cin >> pilihan;
+        if (pilihan == 1){
+            system("cls");
+            main();
+        } else if (pilihan == 2) {
+            system("cls");
+            return 0;
+        } else {
+            system("cls");
+            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
+        }
     } else if (pilihan == 3){
         system("cls");
         int targetNIM;
         cout << "Masukkan NIM yang ingin dicari: ";
         cin >> targetNIM;
-        cariDataMahasiswa(head, targetNIM);
+        cariDataMahasiswa(targetNIM);
+        cout << endl;
+        cout << "1. Kembali" << endl;
+        cout << "2. Keluar" << endl;
+        cout << endl;
+        cout << "Masukan Menu : "; cin >> pilihan;
+        if (pilihan == 1){
+            system("cls");
+            main();
+        } else if (pilihan == 2) {
+            system("cls");
+            return 0;
+        } else {
+            system("cls");
+            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
+        }
     } else if (pilihan == 4){
         system("cls");
         // ubahDataMahasiswa();
