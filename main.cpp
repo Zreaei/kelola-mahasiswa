@@ -14,40 +14,41 @@ struct mahasiswa {
 };
 
 // Variabel global awal linked list
-mahasiswa *head;
-mahasiswa *tail;
+mahasiswa *head = NULL;
+mahasiswa *tail = NULL;
 mahasiswa *current = NULL;
 
 // Memeriksa Linked List
-bool isEmpty(){ 
-    if (head == NULL){
-        return true;
-    } return false;
+bool isEmpty() { 
+    return head == NULL;
 }
 
 // Memasukan data mahasiswa baru 
-void tambahDataMahasiswa(int nim, string nama, string kelas, string prodi){ 
+void tambahDataMahasiswa(int nim, string nama, string kelas, string prodi) { 
     mahasiswa* new_mahasiswa = new mahasiswa;
-    new_mahasiswa->nama = nama; // Mengatur nilai nama_mahasiswa
-    new_mahasiswa->nim = nim;   // Mengatur nilai nim_mahasiswa
-    new_mahasiswa->kelas = kelas; // Mengatur nilai kelas_mahasiswa
-    new_mahasiswa->prodi = prodi; // Mengatur nilai prodi_mahasiswa
+    new_mahasiswa->nama = nama;
+    new_mahasiswa->nim = nim;
+    new_mahasiswa->kelas = kelas;
+    new_mahasiswa->prodi = prodi;
 
     // Node baru akan menjadi head
-    if (isEmpty()){ 
+    if (isEmpty()) { 
         head = new_mahasiswa;
         new_mahasiswa->next = NULL;
+        new_mahasiswa->prev = NULL;
     } else {
         new_mahasiswa->next = head;
         new_mahasiswa->prev = NULL;
+        head->prev = new_mahasiswa;
         head = new_mahasiswa;
     }
 }
 
-void cariDataMahasiswa(int targetNIM){
+void cariDataMahasiswa(int targetNIM) {
     mahasiswa* current = head;
-    while (current != NULL){
-        if (current->nim == targetNIM){
+    while (current != NULL) {
+        if (current->nim == targetNIM) {
+            system("cls");
             cout << "Data Mahasiswa ditemukan!" << endl;
             cout << "NIM: " << current->nim << endl;
             cout << "Nama: " << current->nama << endl;
@@ -57,24 +58,27 @@ void cariDataMahasiswa(int targetNIM){
         }
         current = current->next;
     }
+    system("cls");
     cout << "Data Mahasiswa tidak ditemukan." << endl;
 }
 
-void ubahDataMahasiswa(int targetNIM){
+void ubahDataMahasiswa(int targetNIM) {
     mahasiswa* current = head;
-    while (current != NULL){
-        if (current->nim == targetNIM){
+    while (current != NULL) {
+        if (current->nim == targetNIM) {
             cout << "Masukkan Nama Baru: ";
             cin >> current->nama;
             cout << "Masukkan Kelas Baru: ";
             cin >> current->kelas;
             cout << "Masukkan Prodi Baru: ";
             cin >> current->prodi;
+            system("cls");
             cout << "Data Mahasiswa berhasil diubah!" << endl;
             return;
         }
         current = current->next;
     }
+    system("cls");
     cout << "Data Mahasiswa tidak ditemukan." << endl;
 }
 
@@ -96,30 +100,59 @@ void hapusDataMahasiswa(int targetNIM) {
                 tail = current->prev;
             }
             delete current;
-            cout << "NIM " << targetNIM << " telah dihapus" << endl;
+            cout << "Data Mahasiswa dengan NIM tersebut telah dihapus\n" << endl;
             return;
         }
         current = current->next;
     }
-    cout << "NIM " << targetNIM << " tidak ditemukan." << endl;
+    system("cls");
+    cout << "Data Mahasiswa berdasarkan NIM tersebut tidak ditemukan.\n" << endl;
 }
-
 
  // Menampilkan data mahasiswa
-void lihatDataMahasiswa(){
+void lihatDataMahasiswa() {
     mahasiswa* current = head;
-    cout << "Daftar Mahasiswa:\n";
-    while (current != NULL) {
-        cout << "NIM: " << current->nim << endl;
-        cout << "Nama: " << current->nama << endl; 
-        cout << "Kelas: " << current->kelas << endl;
-        cout << "Prodi: " << current->prodi << endl;
-        cout << endl;
-        current = current->next;
-    } 
+    if (current != NULL) {
+        cout << "Daftar Mahasiswa:\n";
+        while (current != NULL) {
+            cout << "NIM: " << current->nim << endl;
+            cout << "Nama: " << current->nama << endl; 
+            cout << "Kelas: " << current->kelas << endl;
+            cout << "Prodi: " << current->prodi << endl;
+            cout << endl;
+            current = current->next;
+        } 
+    } else {
+        cout << "Data Mahasiswa masih kosong.\n" << endl;
+    }
 }
 
-void tampilkanMenu(){
+void insertAfter(int afterNIM, int nim, string nama, string kelas, string prodi) {
+    mahasiswa* current = head;
+    while (current != NULL) {
+        if (current->nim == afterNIM) {
+            mahasiswa* new_mahasiswa = new mahasiswa;
+            new_mahasiswa->nama = nama;
+            new_mahasiswa->nim = nim;
+            new_mahasiswa->kelas = kelas;
+            new_mahasiswa->prodi = prodi;
+            new_mahasiswa->next = current->next;
+            new_mahasiswa->prev = current;
+            if (current->next != NULL) {
+                current->next->prev = new_mahasiswa;
+            } else {
+                tail = new_mahasiswa;
+            }
+            current->next = new_mahasiswa;
+            cout << "Data Mahasiswa berhasil ditambahkan setelah NIM " << afterNIM << endl;
+            return;
+        }
+        current = current->next;
+    }
+    cout << "Data Mahasiswa dengan NIM " << afterNIM << " tidak ditemukan." << endl;
+}
+
+void tampilkanMenu() {
     system("cls");
     cout << "========================================" << endl;
     cout << "===== SISTEM KELOLA DATA MAHASISWA =====" << endl;
@@ -136,122 +169,66 @@ void tampilkanMenu(){
     cout << endl;
 }
 
-int main(){
+int main() {
     int pilihan;
-    tampilkanMenu();
-    cout << "Masukan Menu : "; cin >> pilihan;
+    while (true) {
+        tampilkanMenu();
+        cout << "Masukan Menu : "; 
+        cin >> pilihan;
 
-    if (pilihan == 1){
-        system("cls");
-        int pilihan;
-        int nim;
-        string nama, kelas, prodi;
-        cout << "Masukkan NIM: "; cin >> nim;
-        cout << "Masukkan Nama: "; cin >> nama;
-        cout << "Masukkan Kelas: "; cin >> kelas;
-        cout << "Masukkan Prodi: "; cin >> prodi;
-        tambahDataMahasiswa(nim, nama, kelas, prodi);
-        cout << "Data Mahasiswa berhasil ditambahkan!" << endl;
-        cout << endl;
-        cout << "1. Kembali" << endl;
-        cout << "2. Keluar" << endl;
-        cout << endl;
-        cout << "Masukan Menu : "; cin >> pilihan;
-        if (pilihan == 1){
+        if (pilihan == 1) {
             system("cls");
-            main();
+            int nim;
+            string nama, kelas, prodi;
+            cout << "Masukkan NIM: "; 
+            cin >> nim;
+            cout << "Masukkan Nama: "; 
+            cin >> nama;
+            cout << "Masukkan Kelas: "; 
+            cin >> kelas;
+            cout << "Masukkan Prodi: "; 
+            cin >> prodi;
+            tambahDataMahasiswa(nim, nama, kelas, prodi);
+            system("cls");
+            cout << "Data Mahasiswa berhasil ditambahkan!" << endl;
         } else if (pilihan == 2) {
             system("cls");
+            lihatDataMahasiswa();
+        } else if (pilihan == 3) {
+            system("cls");
+            int targetNIM;
+            cout << "Masukkan NIM Mahasiswa yang ingin dicari: ";
+            cin >> targetNIM;
+            cariDataMahasiswa(targetNIM);
+        } else if (pilihan == 4) {
+            system("cls");
+            int targetNIM;
+            cout << "Masukkan NIM Mahasiswa yang ingin diubah: ";
+            cin >> targetNIM;
+            ubahDataMahasiswa(targetNIM);
+        } else if (pilihan == 5) {
+            system("cls");
+            int targetNIM;
+            cout << "Masukkan NIM Mahasiswa yang ingin anda hapus: ";
+            cin >> targetNIM;
+            hapusDataMahasiswa(targetNIM);
+        } else if (pilihan == 6) {
             return 0;
         } else {
             system("cls");
             cout << "Masukan pilihan sesuai dengan opsi!" << endl;
         }
 
-    } else if (pilihan == 2){
-        system("cls");
-        lihatDataMahasiswa();
-        cout << "1. Kembali" << endl;
+        cout << endl;
+        cout << "1. Kembali ke Menu Utama" << endl;
         cout << "2. Keluar" << endl;
         cout << endl;
-        cout << "Masukan Menu : "; cin >> pilihan;
-        if (pilihan == 1){
-            system("cls");
-            main();
-        } else if (pilihan == 2) {
-            system("cls");
+        cout << "Masukan Menu : "; 
+        cin >> pilihan;
+
+        if (pilihan == 2)
             return 0;
-        } else {
-            system("cls");
-            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
-        }
-    } else if (pilihan == 3){
-        system("cls");
-        int targetNIM;
-        cout << "Masukkan NIM yang ingin dicari: ";
-        cin >> targetNIM;
-        cariDataMahasiswa(targetNIM);
-        cout << endl;
-        cout << "1. Kembali" << endl;
-        cout << "2. Keluar" << endl;
-        cout << endl;
-        cout << "Masukan Menu : "; cin >> pilihan;
-        if (pilihan == 1){
-            system("cls");
-            main();
-        } else if (pilihan == 2) {
-            system("cls");
-            return 0;
-        } else {
-            system("cls");
-            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
-        }
-    } else if (pilihan == 4){
-        system("cls");
-        int targetNIM;
-        cout << "Masukkan NIM yang ingin dicari: ";
-        cin >> targetNIM;
-        ubahDataMahasiswa(targetNIM);
-        cout << endl;
-        cout << "1. Kembali" << endl;
-        cout << "2. Keluar" << endl;
-        cout << endl;
-        cout << "Masukan Menu : "; cin >> pilihan;
-        if (pilihan == 1){
-            system("cls");
-            main();
-        } else if (pilihan == 2) {
-            system("cls");
-            return 0;
-        } else {
-            system("cls");
-            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
-        }
-    } else if (pilihan == 5){
-        system("cls");
-        int targetNIM;
-        cout << "Masukkan NIM yang ingin anda hapus!: ";
-        cin >> targetNIM;
-        hapusDataMahasiswa(targetNIM);
-        cout << "1. Kembali" << endl;
-        cout << "2. Keluar" << endl;
-        cout << endl;
-        cout << "Masukan Menu : "; cin >> pilihan;
-        if (pilihan == 1){
-            system("cls");
-            main();
-        } else if (pilihan == 2) {
-            system("cls");
-            return 0;
-        } else {
-            system("cls");
-            cout << "Masukan pilihan sesuai dengan opsi!" << endl;
-        }
-    } else if (pilihan == 6){
-        system("cls");
-        return 0;
-    } else {
-        system("cls");
-        cout << "Masukan pilihan sesuai dengan opsi!" << endl;
     }
+
+    return 0;
 }
